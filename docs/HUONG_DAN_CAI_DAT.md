@@ -4,7 +4,7 @@ Dành cho nhân viên các phòng ban. Cài một lần, khoảng 1 phút.
 
 ## Cài đặt
 
-1. Tải file **NhanTinZalo-extension.zip** tại: https://github.com/thuannttu0308/Tool_NhanTinZalo/releases/latest
+1. Tải file **NhanTinZalo-extension.zip** ở mục *Assets* tại: https://github.com/thuannttu0308/Tool_NhanTinZalo/releases/latest (không tải *Source code* hay nút *Code → Download ZIP*).
 2. Giải nén vào một thư mục cố định, ví dụ `D:\NhanTinZalo`. **Không xoá hay di chuyển thư mục này sau khi cài.**
 3. Mở Chrome, gõ vào thanh địa chỉ: `chrome://extensions`
 4. Bật **Developer mode** (Chế độ dành cho nhà phát triển) ở góc trên bên phải.
@@ -32,7 +32,7 @@ Muốn lưu riêng một bản kết quả, bấm **Xuất file Excel** ở bư�
 Khi có bản mới, tool hiện thanh màu vàng **"Có phiên bản mới"** phía trên.
 
 1. Bấm **Cập nhật**.
-2. Lần đầu tiên, Chrome yêu cầu chọn thư mục đã cài tool: chọn lại thư mục `D:\NhanTinZalo\NhanTinZalo`, rồi bấm **Cho phép chỉnh sửa**.
+2. Lần đầu tiên, Chrome yêu cầu chọn thư mục đang cài tool. Đây là thư mục ghi ở dòng **Loaded from** (Đã tải từ) của Nhắn tin Zalo trong trang `chrome://extensions`, ví dụ `D:\NhanTinZalo\NhanTinZalo`. Chọn xong bấm **Cho phép chỉnh sửa**. Nếu chọn nhầm, tool sẽ báo lỗi để chọn lại.
 3. Tool tự tải bản mới và khởi động lại. Mẫu tin nhắn và cài đặt vẫn giữ nguyên.
 
 Từ lần sau chỉ cần bấm **Cập nhật** là xong.
