@@ -35,6 +35,8 @@ public class MainActivity extends Activity {
 
     static final String ZALO_PACKAGE = "com.zing.zalo";
     private static final int REQ_PICK = 1001;
+    private static final int REQ_EXPORT = 1002;
+    private byte[] pendingExport;
 
     static WeakReference<MainActivity> current = new WeakReference<>(null);
 
@@ -77,6 +79,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQ_EXPORT) {
+            finishExport(resultCode == RESULT_OK && data != null ? data.getData() : null);
+            return;
+        }
         if (requestCode != REQ_PICK) return;
         if (resultCode != RESULT_OK || data == null || data.getData() == null) {
             js("window.__onFilePicked && window.__onFilePicked(null)");
@@ -118,6 +124,21 @@ public class MainActivity extends Activity {
         }
         String p = uri.getLastPathSegment();
         return p == null ? "khach_hang.xlsx" : p;
+    }
+
+    private void finishExport(Uri uri) {
+        byte[] bytes = pendingExport;
+        pendingExport = null;
+        if (uri == null || bytes == null) {
+            js("window.__onExportResult && window.__onExportResult(false, null)");
+            return;
+        }
+        try (OutputStream os = getContentResolver().openOutputStream(uri, "wt")) {
+            os.write(bytes);
+            js("window.__onExportResult && window.__onExportResult(true, null)");
+        } catch (Exception e) {
+            js("window.__onExportResult && window.__onExportResult(false, " + JSONObject.quote("Không ghi được file: " + e.getMessage()) + ")");
+        }
     }
 
     private void updateResult(String error) {
@@ -179,6 +200,18 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void openAccessibilitySettings() {
             runOnUiThread(() -> startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)));
+        }
+
+        @JavascriptInterface
+        public void exportExcel(String b64, String name) {
+            pendingExport = Base64.decode(b64, Base64.DEFAULT);
+            runOnUiThread(() -> {
+                Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType(name.endsWith(".csv") ? "text/csv" : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                i.putExtra(Intent.EXTRA_TITLE, name);
+                startActivityForResult(i, REQ_EXPORT);
+            });
         }
 
         @JavascriptInterface

@@ -294,6 +294,12 @@
       async send(phone, messages) {
         return window.pywebview.api.send(state.target, phone, messages, Number(state.delayMessage) || 0);
       },
+      async exportFile() {
+        const r = await window.pywebview.api.export_file();
+        if (!r) return false;
+        if (r.error) throw new Error(r.error);
+        return true;
+      },
       async update(info) {
         const r = await window.pywebview.api.update(info.desktop && info.desktop.windows, info.page || '');
         if (r && r.error) throw new Error(r.error);
@@ -336,6 +342,15 @@
           if (err) finish(false, err);
         });
       },
+      async exportFile() {
+        const bytes = await Sheet.toBytes();
+        const base = state.fileName.replace(/\.[^.]+$/, '');
+        const ext = Sheet.engine === 'sheetjs' && Sheet.bookType !== 'xlsx' ? Sheet.bookType : 'xlsx';
+        return new Promise((resolve, reject) => {
+          window.__onExportResult = (ok, err) => (err ? reject(new Error(err)) : resolve(ok));
+          window.Android.exportExcel(bytesToB64(bytes), `${base}_ket_qua.${ext}`);
+        });
+      },
       update(info) {
         return new Promise((resolve, reject) => {
           window.__onUpdateResult = err => (err ? reject(new Error(err)) : resolve());
@@ -367,7 +382,7 @@
         }
         const perm = await handle.requestPermission({ mode: 'readwrite' });
         this.fileHandle = perm === 'granted' ? handle : null;
-        if (!this.fileHandle) toast('Không có quyền ghi file, hãy bấm Tải file Excel kết quả sau khi gửi', 5000);
+        if (!this.fileHandle) toast('Không có quyền ghi file, hãy bấm Xuất file Excel sau khi gửi', 5000);
         const file = await handle.getFile();
         return Sheet.parse(new Uint8Array(await file.arrayBuffer()), file.name);
       },
@@ -631,7 +646,19 @@
     $('tableMore').textContent = list.length > TABLE_LIMIT ? `Đang hiển thị ${TABLE_LIMIT}/${list.length} khách` : '';
   }
 
+  // Xuất toàn bộ danh sách kèm Trạng thái và Nội dung đã gửi ra file mới
+  async function exportExcel() {
+    if (!state.rows.length) { toast('Hãy chọn file Excel trước'); return; }
+    try {
+      const done = adapter.exportFile ? await adapter.exportFile() : (await Sheet.download(state.fileName), true);
+      if (done) toast('Đã xuất file Excel');
+    } catch (e) {
+      toast('Không xuất được file: ' + (e.message || e), 5000);
+    }
+  }
+
   function renderAll() {
+    $('btnExport').classList.toggle('hidden', !state.rows.length);
     renderStats();
     renderTable();
     refreshManual();
@@ -838,7 +865,7 @@
     if (!row) {
       card.classList.add('hidden');
       empty.classList.remove('hidden');
-      empty.textContent = 'Đã xử lý hết danh sách. Bấm "Tải file Excel kết quả" để lưu.';
+      empty.textContent = 'Đã xử lý hết danh sách. Bấm "Xuất file Excel" để lưu kết quả.';
       return;
     }
     empty.classList.add('hidden');
@@ -1023,10 +1050,7 @@
       refreshManual();
     });
     $('mReroll').addEventListener('click', () => { state.manualPicks = null; refreshManual(); });
-    $('btnDownload').addEventListener('click', () => {
-      if (!Sheet.wb) { toast('Chưa có file để tải'); return; }
-      Sheet.download(state.fileName);
-    });
+    $('btnExport').addEventListener('click', exportExcel);
 
     window.addEventListener('beforeunload', e => {
       if (state.running) { e.preventDefault(); e.returnValue = ''; }

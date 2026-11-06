@@ -18,8 +18,8 @@ android {
         applicationId = "vn.tmark.nhantinzalo"
         minSdk = 24
         targetSdk = 34
-        versionCode = 10100
-        versionName = "1.1.0"
+        versionCode = 10101
+        versionName = "1.1.1"
     }
 
     signingConfigs {

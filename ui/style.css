@@ -301,6 +301,7 @@ textarea { resize: vertical; min-height: 84px; line-height: 1.45; }
 .run-actions .btn { flex: 1; min-width: 120px; }
 
 .progress-wrap { margin-top: 16px; }
+.export-btn { margin-top: 12px; }
 
 .progress {
   height: 8px;

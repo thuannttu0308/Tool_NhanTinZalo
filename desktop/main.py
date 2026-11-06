@@ -47,6 +47,25 @@ class Api:
             "contentCol": self._store.content_col,
         }
 
+    def export_file(self):
+        if not self._store.path:
+            return {"error": "Chưa chọn file"}
+        base = os.path.splitext(os.path.basename(self._store.path))[0]
+        ext = ".csv" if self._store.kind == "csv" else os.path.splitext(self._store.path)[1].lower()
+        result = webview.windows[0].create_file_dialog(
+            webview.SAVE_DIALOG,
+            directory=os.path.dirname(self._store.path),
+            save_filename=f"{base}_ket_qua{ext}",
+        )
+        if not result:
+            return None
+        path = result if isinstance(result, str) else result[0]
+        try:
+            self._store.save(path)
+            return {"ok": True, "path": path}
+        except Exception as e:
+            return {"error": str(e)}
+
     def update_row(self, row, status, content):
         try:
             self._store.update(int(row), status, content)

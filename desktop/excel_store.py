@@ -124,12 +124,13 @@ class ExcelStore:
             c.alignment = Alignment(wrap_text=True, vertical="top")
         self.save()
 
-    def save(self):
+    def save(self, path=None):
+        path = path or self.path
         try:
             if self.kind == "csv":
-                with open(self.path, "w", encoding="utf-8-sig", newline="") as f:
+                with open(path, "w", encoding="utf-8-sig", newline="") as f:
                     csv.writer(f, delimiter=self.csv_delimiter).writerows(self.csv_rows)
             else:
-                self.wb.save(self.path)
+                self.wb.save(path)
         except PermissionError:
-            raise PermissionError("File đang mở trong Excel, hãy đóng file rồi bấm Tiếp tục")
+            raise PermissionError("File đang mở trong Excel, hãy đóng file rồi thử lại")
