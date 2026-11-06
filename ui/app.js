@@ -275,6 +275,38 @@
     });
   }
 
+  // Tìm thư mục có manifest.json của tool, chấp nhận chọn thư mục cha
+  async function findExtensionDir(dir, depth = 0) {
+    try {
+      const f = await (await dir.getFileHandle('manifest.json')).getFile();
+      if (JSON.parse(await f.text()).name === chrome.runtime.getManifest().name) return dir;
+    } catch (e) {}
+    if (depth >= 2) return null;
+    for await (const [, entry] of dir.entries()) {
+      if (entry.kind !== 'directory') continue;
+      const found = await findExtensionDir(entry, depth + 1);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  // Ghi thử một file rồi đọc lại qua extension để chắc đây là thư mục Chrome đang chạy
+  async function isRunningDir(dir) {
+    const name = 'update-check.txt';
+    const token = Math.random().toString(36).slice(2);
+    try {
+      const w = await (await dir.getFileHandle(name, { create: true })).createWritable();
+      await w.write(token);
+      await w.close();
+      const res = await fetch(chrome.runtime.getURL(name) + '?t=' + Date.now(), { cache: 'no-store' });
+      return res.ok && (await res.text()).trim() === token;
+    } catch (e) {
+      return false;
+    } finally {
+      try { await dir.removeEntry(name); } catch (e) {}
+    }
+  }
+
   // Cầu nối theo từng nền tảng
   const adapters = {
     desktop: {
@@ -410,17 +442,17 @@
         let dir = await idb('get', 'extDir');
         if (dir && (await dir.requestPermission({ mode: 'readwrite' })) !== 'granted') dir = null;
         if (!dir) {
-          toast('Chọn thư mục đã cài tool (thư mục có file manifest.json)', 6000);
+          toast('Chọn thư mục đang cài tool, xem ở mục "Loaded from" trong trang chrome://extensions', 8000);
           dir = await window.showDirectoryPicker({ id: 'extdir', mode: 'readwrite' });
         }
-        let current = null;
-        try {
-          const f = await (await dir.getFileHandle('manifest.json')).getFile();
-          current = JSON.parse(await f.text());
-        } catch (e) {}
-        if (!current || current.name !== chrome.runtime.getManifest().name) {
+        dir = await findExtensionDir(dir);
+        if (!dir) {
           await idb('del', 'extDir');
           throw new Error('Thư mục chưa đúng, hãy chọn thư mục có file manifest.json của tool');
+        }
+        if (!(await isRunningDir(dir))) {
+          await idb('del', 'extDir');
+          throw new Error('Thư mục vừa chọn không phải thư mục Chrome đang dùng. Mở chrome://extensions, xem dòng "Loaded from" của Nhắn tin Zalo rồi bấm Cập nhật và chọn đúng thư mục đó');
         }
         await idb('set', 'extDir', dir);
 
@@ -941,10 +973,16 @@
       const btn = $('btnUpdate');
       btn.disabled = true;
       btn.textContent = 'Đang cập nhật...';
+      $('updateError').classList.add('hidden');
       try {
         await adapter.update(info);
       } catch (e) {
-        toast('Cập nhật chưa thành công: ' + (e.message || e), 6000);
+        if (e.name === 'AbortError') {
+          toast('Đã huỷ cập nhật');
+        } else {
+          $('updateError').textContent = 'Cập nhật chưa thành công: ' + (e.message || e);
+          $('updateError').classList.remove('hidden');
+        }
         btn.disabled = false;
         btn.textContent = 'Cập nhật';
       }

@@ -19,6 +19,11 @@ chrome.action.onClicked.addListener(async () => {
   }
 });
 
+// Cập nhật xong thì mở lại trang tool
+chrome.runtime.onInstalled.addListener(({ reason }) => {
+  if (reason === 'update') chrome.tabs.create({ url: APP_PAGE });
+});
+
 chrome.runtime.onMessage.addListener((msg, sender, respond) => {
   if (msg.type === 'sleep') {
     setTimeout(() => respond(true), Math.max(0, msg.ms || 0));

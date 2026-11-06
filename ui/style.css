@@ -69,6 +69,7 @@ body {
 
 .update-text { flex: 1; min-width: 200px; font-size: 14px; }
 .update-text span { color: var(--muted); margin-left: 6px; white-space: pre-line; }
+.update-error { margin-top: 6px; color: var(--danger); font-weight: 500; }
 
 .platform {
   font-size: 12px;

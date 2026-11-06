@@ -1,9 +1,9 @@
 {
-  "version": "1.1.1",
-  "notes": "Thêm nút Xuất file Excel để xem đã gửi cho ai và gửi nội dung gì",
+  "version": "1.1.2",
+  "notes": "Sửa lỗi cập nhật: tự kiểm tra đúng thư mục Chrome đang dùng, báo lỗi rõ ràng, tự mở lại tool sau khi cập nhật",
   "page": "https://github.com/thuannttu0308/Tool_NhanTinZalo/releases/latest",
   "extension": {
-    "base": "https://raw.githubusercontent.com/thuannttu0308/Tool_NhanTinZalo/v1.1.1/extension/",
+    "base": "https://raw.githubusercontent.com/thuannttu0308/Tool_NhanTinZalo/v1.1.2/extension/",
     "files": [
       "app.js",
       "background.js",
@@ -21,9 +21,9 @@
     ]
   },
   "desktop": {
-    "windows": "https://github.com/thuannttu0308/Tool_NhanTinZalo/releases/download/v1.1.1/NhanTinZalo.exe"
+    "windows": "https://github.com/thuannttu0308/Tool_NhanTinZalo/releases/download/v1.1.2/NhanTinZalo.exe"
   },
   "android": {
-    "apk": "https://github.com/thuannttu0308/Tool_NhanTinZalo/releases/download/v1.1.1/NhanTinZalo.apk"
+    "apk": "https://github.com/thuannttu0308/Tool_NhanTinZalo/releases/download/v1.1.2/NhanTinZalo.apk"
   }
 }
