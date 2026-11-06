@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "Nhắn tin Zalo",
+  "short_name": "Nhắn tin Zalo",
+  "version": "1.1.0",
+  "description": "Gửi tin nhắn Zalo theo danh sách khách hàng trong file Excel.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Mở Nhắn tin Zalo",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "tabs",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://chat.zalo.me/*",
+    "https://raw.githubusercontent.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chat.zalo.me/*"
+      ],
+      "js": [
+        "zalo-page.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": [
+        "https://chat.zalo.me/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

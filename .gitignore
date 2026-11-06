@@ -1,0 +1,13 @@
+﻿__pycache__/
+*.pyc
+desktop/build/
+desktop/dist/
+desktop/*.spec
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+android/keystore/
+dist/
+docs/mau_khach_hang.xlsx
+@AutomationLog.txt

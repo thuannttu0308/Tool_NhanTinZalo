@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Nhắn tin Zalo</string>
+    <string name="service_label">Nhắn tin Zalo - Tự động gửi</string>
+    <string name="service_desc">Cho phép app tự điền và bấm gửi tin nhắn trong Zalo theo danh sách khách hàng bạn đã chọn. App chỉ hoạt động trong Zalo khi bạn bấm Bắt đầu gửi.</string>
+</resources>

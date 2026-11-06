@@ -1,0 +1,4 @@
+- Tool sẽ hoạt động trên giao diện thân thiện, dễ dùng, đảm bảo giao diện hiển thị đẹp mắt trên mobile
+- Không được tự động thêm những icon kiểu AI vào giao diện
+- Khi tạo source code thì không được thêm những chú thích dư thừa, chỉ chú thích những mục cần thiết và chú thích hiển thị đang giản theo dạng ví như <! -- Chú thích --> để đảm bảo code được sạch sẽ
+- Đảm bảo được giao diện hoạt động mượt mà trên mọi thiết bị

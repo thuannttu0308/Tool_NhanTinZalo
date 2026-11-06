@@ -1,0 +1,29 @@
+{
+  "version": "1.1.0",
+  "notes": "Bản Chrome Extension chạy ngầm qua Zalo Web, nút cập nhật phiên bản, giữ định dạng file Excel",
+  "page": "https://github.com/thuannttu0308/Tool_NhanTinZalo/releases/latest",
+  "extension": {
+    "base": "https://raw.githubusercontent.com/thuannttu0308/Tool_NhanTinZalo/v1.1.0/extension/",
+    "files": [
+      "app.js",
+      "background.js",
+      "content.js",
+      "icons/icon128.png",
+      "icons/icon16.png",
+      "icons/icon48.png",
+      "index.html",
+      "manifest.json",
+      "style.css",
+      "vendor/exceljs.min.js",
+      "vendor/xlsx.full.min.js",
+      "version.js",
+      "zalo-page.js"
+    ]
+  },
+  "desktop": {
+    "windows": "https://github.com/thuannttu0308/Tool_NhanTinZalo/releases/download/v1.1.0/NhanTinZalo.exe"
+  },
+  "android": {
+    "apk": "https://github.com/thuannttu0308/Tool_NhanTinZalo/releases/download/v1.1.0/NhanTinZalo.apk"
+  }
+}

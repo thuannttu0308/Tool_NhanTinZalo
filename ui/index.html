@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0068ff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Nhắn tin Zalo">
+<title>Nhắn tin Zalo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <h1>Nhắn tin Zalo <small id="versionLabel"></small></h1>
+    <span class="platform" id="platformLabel"></span>
+  </div>
+</header>
+
+<!-- Thông báo có phiên bản mới -->
+<div class="update-bar hidden" id="updateBar">
+  <div class="update-inner">
+    <div class="update-text">
+      <b id="updateTitle"></b>
+      <span id="updateNotes"></span>
+    </div>
+    <button class="btn btn-primary btn-sm" id="btnUpdate">Cập nhật</button>
+  </div>
+</div>
+
+<main class="container layout">
+
+  <!-- Cột trái: chọn file và soạn tin -->
+  <div class="col">
+
+  <section class="card">
+    <div class="card-head">
+      <span class="step">01</span>
+      <h2>Chọn file Excel</h2>
+    </div>
+    <div class="file-row">
+      <button class="btn btn-primary" id="btnPickFile">Chọn file Excel</button>
+      <input type="file" id="fileInput" accept=".xlsx,.xls,.xlsm,.csv" hidden>
+      <span class="file-name" id="fileName">Chưa chọn file</span>
+    </div>
+    <div class="grid-2 hidden" id="columnPicker">
+      <label class="field">
+        <span>Cột số điện thoại</span>
+        <select id="selPhone"></select>
+      </label>
+      <label class="field">
+        <span>Cột dùng cho biến {Tên}</span>
+        <select id="selName"></select>
+      </label>
+    </div>
+    <div class="stats hidden" id="stats"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <span class="step">02</span>
+      <h2>Soạn tin nhắn mẫu</h2>
+    </div>
+    <p class="hint">Mỗi tin nhắn có nhiều mẫu, hệ thống chọn ngẫu nhiên 1 mẫu để gửi. Dùng <code>{Tên}</code> để chèn tên khách. Tin nhắn để trống sẽ được bỏ qua.</p>
+    <div id="messageBlocks"></div>
+    <button class="btn btn-add btn-block" id="btnAddBlock"></button>
+  </section>
+
+  </div>
+
+  <!-- Cột phải: gửi tin, danh sách, nhật ký -->
+  <div class="col">
+
+  <section class="card">
+    <div class="card-head">
+      <span class="step">03</span>
+      <h2>Gửi tin nhắn</h2>
+    </div>
+
+    <div class="field hidden" id="targetField">
+      <span>Gửi qua</span>
+      <div class="segmented" id="targetSeg"></div>
+    </div>
+
+    <div class="notice hidden" id="serviceNotice">
+      <p>Cần bật quyền <b>Trợ năng</b> cho app để tự động bấm gửi trong Zalo.</p>
+      <button class="btn btn-outline btn-sm" id="btnOpenService">Mở cài đặt Trợ năng</button>
+    </div>
+
+    <div class="grid-3" id="settingsGrid">
+      <label class="field">
+        <span>Nghỉ giữa các khách (giây)</span>
+        <input type="number" id="delayCustomer" min="0" step="1" inputmode="numeric">
+      </label>
+      <label class="field">
+        <span>Nghỉ giữa các tin (giây)</span>
+        <input type="number" id="delayMessage" min="0" step="1" inputmode="numeric">
+      </label>
+      <label class="field">
+        <span>Giới hạn số khách (0 = tất cả)</span>
+        <input type="number" id="limit" min="0" step="1" inputmode="numeric">
+      </label>
+    </div>
+
+    <div class="run-actions" id="autoActions">
+      <button class="btn btn-primary" id="btnStart">Bắt đầu gửi</button>
+      <button class="btn btn-outline hidden" id="btnPause">Tạm dừng</button>
+      <button class="btn btn-danger hidden" id="btnStop">Dừng</button>
+    </div>
+
+    <!-- Chế độ thủ công cho iOS / trình duyệt -->
+    <div class="manual hidden" id="manualPanel">
+      <div class="manual-empty" id="manualEmpty">Chọn file và soạn tin nhắn để bắt đầu.</div>
+      <div class="manual-card hidden" id="manualCard">
+        <div class="manual-head">
+          <div>
+            <div class="manual-name" id="mName"></div>
+            <div class="manual-phone" id="mPhone"></div>
+          </div>
+          <span class="manual-count" id="mCount"></span>
+        </div>
+        <a class="btn btn-primary btn-block" id="mOpen" target="_blank" rel="noopener">Mở chat Zalo</a>
+        <div id="mMessages"></div>
+        <div class="manual-actions">
+          <button class="btn btn-outline" id="mReroll">Đổi mẫu khác</button>
+          <button class="btn btn-outline" id="mSkip">Bỏ qua</button>
+          <button class="btn btn-success" id="mDone">Đã gửi, khách tiếp</button>
+        </div>
+      </div>
+      <button class="btn btn-outline btn-block" id="btnDownload">Tải file Excel kết quả</button>
+    </div>
+
+    <div class="progress-wrap hidden" id="progressWrap">
+      <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-text" id="progressText"></div>
+    </div>
+  </section>
+
+  <!-- Danh sách khách -->
+  <section class="card hidden" id="listCard">
+    <div class="card-head">
+      <h2>Danh sách khách</h2>
+      <div class="filter" id="filterSeg">
+        <button data-f="all" class="active">Tất cả</button>
+        <button data-f="pending">Chưa gửi</button>
+        <button data-f="sent">Đã gửi</button>
+        <button data-f="error">Lỗi</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Số điện thoại</th><th>Tên</th><th>Trạng thái</th></tr></thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <div class="table-more" id="tableMore"></div>
+  </section>
+
+  <!-- Nhật ký -->
+  <section class="card hidden" id="logCard">
+    <div class="card-head">
+      <h2>Nhật ký</h2>
+      <button class="btn btn-ghost btn-sm" id="btnClearLog">Xoá</button>
+    </div>
+    <div class="log" id="log"></div>
+  </section>
+
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="version.js"></script>
+<script src="vendor/xlsx.full.min.js"></script>
+<script src="vendor/exceljs.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
