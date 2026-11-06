@@ -48,6 +48,7 @@ def build_extension():
     return sorted(p.relative_to(out).as_posix() for p in out.rglob("*") if p.is_file())
 
 
+# Gói bàn giao: thư mục extension, hướng dẫn cài đặt và file Excel mẫu
 def zip_extension():
     dist = ROOT / "dist"
     dist.mkdir(exist_ok=True)
@@ -56,6 +57,8 @@ def zip_extension():
         for p in (ROOT / "extension").rglob("*"):
             if p.is_file():
                 z.write(p, Path("NhanTinZalo") / p.relative_to(ROOT / "extension"))
+        z.write(ROOT / "docs" / "huong-dan-cai-dat.html", "Huong dan cai dat.html")
+        z.write(ROOT / "docs" / "file_mau.xlsx", "File mau khach hang.xlsx")
     return target
 
 

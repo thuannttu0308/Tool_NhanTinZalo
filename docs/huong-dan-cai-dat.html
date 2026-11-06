@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hướng dẫn cài đặt Nhắn tin Zalo</title>
+<style>
+  :root { --primary: #0068ff; --soft: #e8f1ff; --text: #1a2233; --muted: #667085; --border: #e3e8ef; --warn: #fff8e6; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: var(--text); font: 16px/1.6 -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+  header { background: var(--primary); color: #fff; padding: 22px 16px; }
+  header h1 { margin: 0 auto; max-width: 820px; font-size: 22px; }
+  header p { margin: 4px auto 0; max-width: 820px; opacity: .85; font-size: 14px; }
+  main { max-width: 820px; margin: 0 auto; padding: 20px 16px 48px; }
+  h2 { font-size: 18px; margin: 32px 0 12px; display: flex; align-items: center; gap: 10px; }
+  h2 span { background: var(--primary); color: #fff; border-radius: 8px; padding: 2px 10px; font-size: 14px; }
+  ol { padding-left: 22px; margin: 0; }
+  li { margin: 8px 0; }
+  code { background: var(--soft); color: var(--primary); padding: 2px 7px; border-radius: 6px; font-size: 14px; word-break: break-all; }
+  .box { border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; margin: 12px 0; }
+  .note { background: var(--warn); border: 1px solid #f5d98b; border-radius: 12px; padding: 12px 16px; margin: 12px 0; font-size: 15px; }
+  .tree { font-family: Consolas, Menlo, monospace; font-size: 14px; background: #f7f9fc; border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; white-space: pre; overflow-x: auto; }
+  dt { font-weight: 600; margin-top: 12px; }
+  dd { margin: 4px 0 0; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Hướng dẫn cài đặt Nhắn tin Zalo</h1>
+  <p>Công cụ gửi tin nhắn Zalo theo danh sách khách hàng trong file Excel, chạy trên Google Chrome.</p>
+</header>
+<main>
+
+  <p>Trong gói này gồm:</p>
+  <div class="tree">NhanTinZalo-extension
+├── NhanTinZalo                    thư mục cài vào Chrome
+├── Huong dan cai dat.html         file hướng dẫn này
+└── File mau khach hang.xlsx       file Excel mẫu</div>
+
+  <h2><span>1</span>Giải nén</h2>
+  <ol>
+    <li>Chuột phải vào file zip, chọn <b>Extract All</b> (Giải nén tất cả).</li>
+    <li>Chọn nơi lưu cố định, ví dụ <code>D:\NhanTinZalo-extension</code>.</li>
+  </ol>
+  <div class="note"><b>Lưu ý:</b> không để trong thư mục Downloads và không xoá, di chuyển thư mục sau khi cài, vì Chrome chạy trực tiếp từ thư mục này.</div>
+
+  <h2><span>2</span>Cài vào Chrome</h2>
+  <ol>
+    <li>Mở Chrome, gõ vào thanh địa chỉ: <code>chrome://extensions</code> rồi nhấn Enter.</li>
+    <li>Bật <b>Developer mode</b> (Chế độ dành cho nhà phát triển) ở góc trên bên phải.</li>
+    <li>Bấm <b>Load unpacked</b> (Tải tiện ích đã giải nén).</li>
+    <li>Chọn thư mục <code>NhanTinZalo</code> nằm bên trong thư mục vừa giải nén, ví dụ <code>D:\NhanTinZalo-extension\NhanTinZalo</code>, rồi bấm <b>Select Folder</b>.</li>
+    <li>Bấm biểu tượng mảnh ghép trên thanh Chrome, bấm ghim cạnh <b>Nhắn tin Zalo</b> để luôn hiện trên thanh công cụ.</li>
+  </ol>
+  <p>Dùng Microsoft Edge thì làm tương tự, địa chỉ là <code>edge://extensions</code>.</p>
+
+  <h2><span>3</span>Đăng nhập Zalo Web</h2>
+  <ol>
+    <li>Mở <code>https://chat.zalo.me</code> trên Chrome.</li>
+    <li>Quét mã QR bằng app Zalo trên điện thoại để đăng nhập. Chỉ cần làm một lần.</li>
+  </ol>
+
+  <h2><span>4</span>Sử dụng</h2>
+  <ol>
+    <li>Bấm biểu tượng <b>Nhắn tin Zalo</b> trên thanh Chrome để mở công cụ.</li>
+    <li><b>01. Chọn file Excel</b>: chọn file danh sách khách. Khi Chrome hỏi quyền chỉnh sửa file, bấm <b>Cho phép</b>.</li>
+    <li><b>02. Soạn tin nhắn mẫu</b>: nhập nội dung, mỗi tin có thể có nhiều mẫu để gửi ngẫu nhiên. Bấm <b>Chèn {Tên}</b> để chèn tên khách vào tin nhắn.</li>
+    <li><b>03. Gửi tin nhắn</b>: chỉnh thời gian nghỉ nếu cần, bấm <b>Bắt đầu gửi</b>.</li>
+  </ol>
+  <div class="box">
+    <b>File Excel cần có:</b>
+    <ul>
+      <li>Dòng đầu tiên là tiêu đề cột.</li>
+      <li>Cột số điện thoại, ví dụ <code>Số điện thoại</code> hoặc <code>SĐT</code>.</li>
+      <li>Cột <code>Đơn vị kinh doanh</code> để chèn vào <code>{Tên}</code>.</li>
+    </ul>
+    Xem file <b>File mau khach hang.xlsx</b> trong gói này.
+  </div>
+  <p>Công cụ gửi trong tab Zalo đã ghim, bạn vẫn làm việc khác bình thường trong lúc gửi. <b>Không đóng tab Zalo</b> khi đang gửi.</p>
+  <p>Kết quả được ghi thẳng vào file Excel, ở 2 cột <b>Trạng thái</b> và <b>Nội dung tin nhắn đã gửi</b>. Hãy <b>đóng file trong Excel</b> trong lúc công cụ chạy. Muốn lưu riêng một bản kết quả, bấm <b>Xuất file Excel</b>.</p>
+
+  <h2><span>5</span>Cập nhật phiên bản mới</h2>
+  <p>Khi có bản mới, công cụ hiện thanh màu vàng <b>"Có phiên bản mới"</b>.</p>
+  <ol>
+    <li>Bấm <b>Cập nhật</b>.</li>
+    <li>Lần đầu tiên, Chrome yêu cầu chọn thư mục đã cài: chọn lại thư mục <code>NhanTinZalo</code> ở bước 2, bấm <b>Cho phép chỉnh sửa</b>.</li>
+    <li>Công cụ tự tải bản mới và mở lại. Mẫu tin nhắn và cài đặt vẫn giữ nguyên.</li>
+  </ol>
+  <p>Từ lần sau chỉ cần bấm <b>Cập nhật</b>.</p>
+
+  <h2><span>?</span>Câu hỏi thường gặp</h2>
+  <dl>
+    <dt>Chrome báo "Manifest file is missing or unreadable"</dt>
+    <dd>Chọn sai thư mục. Hãy chọn thư mục <code>NhanTinZalo</code>, là thư mục có file <code>manifest.json</code> bên trong.</dd>
+    <dt>Chrome hiện thông báo tắt tiện ích ở chế độ developer</dt>
+    <dd>Bấm đóng (X), không bấm "Tắt".</dd>
+    <dt>Báo "Chưa đăng nhập Zalo Web"</dt>
+    <dd>Đăng nhập ở tab Zalo vừa mở, rồi bấm Bắt đầu gửi lại.</dd>
+    <dt>Báo "File đang mở trong Excel"</dt>
+    <dd>Đóng file trong Excel rồi bấm Tiếp tục.</dd>
+    <dt>Không thấy nút Developer mode</dt>
+    <dd>Máy do IT quản lý đã khoá chế độ này, cần liên hệ IT.</dd>
+    <dt>Nên gửi bao nhiêu khách mỗi ngày?</dt>
+    <dd>Để tránh bị Zalo hạn chế, nên dưới 30 đến 50 khách lạ mỗi ngày cho mỗi tài khoản, và dùng nhiều mẫu tin khác nhau.</dd>
+  </dl>
+
+</main>
+</body>
+</html>
