@@ -25,6 +25,8 @@ Tool gửi trong tab Zalo đã ghim, nhân viên vẫn dùng Chrome và máy là
 
 Kết quả được ghi thẳng vào file Excel đã chọn, ở 2 cột **Trạng thái** và **Nội dung tin nhắn đã gửi**. Hãy **đóng file trong Excel** trong lúc tool chạy.
 
+Muốn lưu riêng một bản kết quả, bấm **Xuất file Excel** ở bước 03, file `<tên file>_ket_qua.xlsx` sẽ được tải về thư mục Downloads.
+
 ## Cập nhật phiên bản mới
 
 Khi có bản mới, tool hiện thanh màu vàng **"Có phiên bản mới"** phía trên.

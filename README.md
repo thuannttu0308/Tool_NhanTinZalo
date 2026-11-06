@@ -21,6 +21,7 @@ Hướng dẫn cài cho các phòng ban: [docs/HUONG_DAN_CAI_DAT.md](docs/HUONG_
 - Tool tự thêm 2 cột `Trạng thái` và `Nội dung tin nhắn đã gửi` nếu chưa có. Khách đã `Đã gửi` sẽ được bỏ qua ở lần chạy sau.
 - Số điện thoại được tự chuẩn hoá: `912345678`, `0912 345 678`, `+84912345678` đều thành `0912345678`.
 - Định dạng của file (màu, độ rộng cột...) được giữ nguyên khi ghi kết quả.
+- Nút **Xuất file Excel** (bước 03) lưu ra file mới `<tên file>_ket_qua.xlsx` gồm toàn bộ danh sách, kèm trạng thái và nội dung đã gửi cho từng khách.
 
 ## Soạn tin nhắn
 
